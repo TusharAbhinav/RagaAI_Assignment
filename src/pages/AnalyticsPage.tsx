@@ -45,7 +45,7 @@ export function AnalyticsPage() {
   const avgOccupancy = 76
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0 overflow-hidden">
       {/* Summary cards */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Card>
@@ -120,22 +120,24 @@ export function AnalyticsPage() {
       </div>
 
       {/* Charts */}
-      <Tabs defaultValue="monthly">
-        <TabsList>
-          <TabsTrigger value="monthly">Monthly Trends</TabsTrigger>
-          <TabsTrigger value="weekly">Weekly Overview</TabsTrigger>
-          <TabsTrigger value="conditions">Conditions</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="monthly" className="min-w-0">
+        <div className="overflow-x-auto">
+          <TabsList className="w-max">
+            <TabsTrigger value="monthly">Monthly Trends</TabsTrigger>
+            <TabsTrigger value="weekly">Weekly Overview</TabsTrigger>
+            <TabsTrigger value="conditions">Conditions</TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="monthly" className="mt-4 space-y-4">
-          <div className="grid gap-4 lg:grid-cols-2">
-            <Card>
+          <div className="grid gap-4 lg:grid-cols-2 min-w-0">
+            <Card className="min-w-0">
               <CardHeader>
                 <CardTitle className="text-base font-semibold">Monthly Admissions vs Discharges</CardTitle>
               </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={260}>
-                  <BarChart data={analyticsData} margin={{ left: -20, right: 10, bottom: 5 }}>
+              <CardContent className="px-2 sm:px-6">
+                <ResponsiveContainer width="100%" height={240}>
+                  <BarChart data={analyticsData} margin={{ left: -20, right: 5, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                     <YAxis tick={{ fontSize: 12 }} />
@@ -148,13 +150,13 @@ export function AnalyticsPage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="min-w-0">
               <CardHeader>
                 <CardTitle className="text-base font-semibold">Monthly Revenue</CardTitle>
               </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={260}>
-                  <LineChart data={analyticsData} margin={{ left: -10, right: 10, bottom: 5 }}>
+              <CardContent className="px-2 sm:px-6">
+                <ResponsiveContainer width="100%" height={240}>
+                  <LineChart data={analyticsData} margin={{ left: -10, right: 5, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                     <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `$${v / 1000}k`} />
@@ -175,13 +177,13 @@ export function AnalyticsPage() {
         </TabsContent>
 
         <TabsContent value="weekly" className="mt-4">
-          <Card>
+          <Card className="min-w-0">
             <CardHeader>
               <CardTitle className="text-base font-semibold">This Week — Daily Patient Flow</CardTitle>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={weeklyData} margin={{ left: -20, right: 10, bottom: 5 }}>
+            <CardContent className="px-2 sm:px-6">
+              <ResponsiveContainer width="100%" height={260}>
+                <BarChart data={weeklyData} margin={{ left: -20, right: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="day" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} />
@@ -196,13 +198,13 @@ export function AnalyticsPage() {
         </TabsContent>
 
         <TabsContent value="conditions" className="mt-4">
-          <div className="grid gap-4 lg:grid-cols-2">
-            <Card>
+          <div className="grid gap-4 lg:grid-cols-2 min-w-0">
+            <Card className="min-w-0">
               <CardHeader>
                 <CardTitle className="text-base font-semibold">Cases by Department</CardTitle>
               </CardHeader>
-              <CardContent className="flex justify-center">
-                <ResponsiveContainer width="100%" height={260}>
+              <CardContent className="flex justify-center px-2 sm:px-6">
+                <ResponsiveContainer width="100%" height={240}>
                   <PieChart>
                     <Pie
                       data={conditionDistribution}
