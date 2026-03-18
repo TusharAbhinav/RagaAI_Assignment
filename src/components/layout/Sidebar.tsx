@@ -31,11 +31,12 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth)
+      if (auth) await signOut(auth)
+    } catch {
+      // ignore firebase errors
+    } finally {
       logout()
       toast.success("Logged out successfully")
-    } catch {
-      logout()
     }
   }
 

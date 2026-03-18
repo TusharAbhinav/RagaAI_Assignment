@@ -13,6 +13,13 @@ import { toast } from "sonner"
 
 const googleProvider = new GoogleAuthProvider()
 
+const DEMO_USER = {
+  uid: "demo-user",
+  email: "demo@healthcare.com",
+  displayName: "Demo User",
+  photoURL: null,
+}
+
 export function LoginPage() {
   const navigate = useNavigate()
   const { setUser, setLoading, isLoading } = useAuthStore()
@@ -38,14 +45,31 @@ export function LoginPage() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleEmailLogin = async (e: React.FormEvent) => {
+  const handleDemoLogin = () => {
+    setUser(DEMO_USER)
+    toast.success("Welcome, Demo User!")
+    navigate("/dashboard")
+  }
+
+  const handleEmailLogin = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!validate()) return
+
+    // Demo credentials shortcut
+    if (email === "demo@healthcare.com" && password === "demo123") {
+      handleDemoLogin()
+      return
+    }
+
+    if (!auth) {
+      toast.error("Firebase is not configured. Use demo login instead.")
+      return
+    }
 
     setLoading(true)
     try {
       const result = await signInWithEmailAndPassword(auth, email, password)
-      setUser(result.user)
+      setUser({ uid: result.user.uid, email: result.user.email, displayName: result.user.displayName })
       toast.success("Welcome back!")
       navigate("/dashboard")
     } catch (err: unknown) {
@@ -63,15 +87,18 @@ export function LoginPage() {
   }
 
   const handleGoogleLogin = async () => {
+    if (!auth) {
+      toast.error("Firebase is not configured. Use demo login instead.")
+      return
+    }
     setLoading(true)
     try {
       const result = await signInWithPopup(auth, googleProvider)
-      setUser(result.user)
+      setUser({ uid: result.user.uid, email: result.user.email, displayName: result.user.displayName })
       toast.success(`Welcome, ${result.user.displayName ?? "there"}!`)
       navigate("/dashboard")
     } catch (err: unknown) {
       const code = (err as { code?: string }).code
-      // user closed the popup — no need to show an error
       if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") return
       toast.error("Google sign-in failed. Please try again.")
     } finally {
@@ -192,6 +219,25 @@ export function LoginPage() {
                 {isLoading ? "Signing in..." : "Sign in"}
               </Button>
             </form>
+
+            <div className="flex items-center gap-3">
+              <Separator className="flex-1" />
+              <span className="text-xs text-muted-foreground">or</span>
+              <Separator className="flex-1" />
+            </div>
+
+            {/* Demo login */}
+            <Button
+              variant="outline"
+              className="w-full border-dashed text-muted-foreground hover:text-foreground"
+              onClick={handleDemoLogin}
+              disabled={isLoading}
+            >
+              Continue as Demo User
+            </Button>
+            <p className="text-center text-xs text-muted-foreground">
+              Demo credentials: <span className="font-mono">demo@healthcare.com</span> / <span className="font-mono">demo123</span>
+            </p>
           </CardContent>
         </Card>
       </div>

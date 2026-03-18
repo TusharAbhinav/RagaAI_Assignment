@@ -1,12 +1,12 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-import type { User } from "firebase/auth"
+import type { AppUser } from "@/types"
 
 interface AuthState {
-  user: User | null
+  user: AppUser | null
   isLoading: boolean
   error: string | null
-  setUser: (user: User | null) => void
+  setUser: (user: AppUser | null) => void
   setLoading: (loading: boolean) => void
   setError: (error: string | null) => void
   logout: () => void
@@ -26,7 +26,6 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth-store",
-      // only persist what we need
       partialize: (state) => ({ user: state.user }),
     }
   )
