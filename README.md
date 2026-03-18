@@ -1,73 +1,96 @@
-# React + TypeScript + Vite
+# HealthHub — B2B Healthcare SaaS Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive healthcare management dashboard built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Authentication** — Google Sign-in via Firebase + email/password login + demo mode (no setup required)
+- **Dashboard** — Key metrics, patient admissions trend chart, department overview, recent patients table
+- **Patient Management** — Grid/list toggle, search, status filtering, patient detail dialog with appointment reminders
+- **Analytics** — Monthly trends, weekly patient flow, condition distribution — all with responsive Recharts charts
+- **Settings** — Notification preferences with toggle controls
+- **Push Notifications** — Service worker-based notifications; appointment reminders fire after a 5-second delay (demo)
+- **Responsive** — Works on mobile, tablet, and desktop
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Layer | Library |
+|---|---|
+| Framework | React 19 + TypeScript + Vite 8 |
+| Styling | Tailwind CSS v3 + shadcn/ui |
+| State | Zustand with persist middleware |
+| Auth | Firebase Authentication |
+| Charts | Recharts |
+| Routing | React Router v7 |
+| Notifications | Service Worker (Web Push API) |
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js 20.19+ or 22.12+
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/TusharAbhinav/RagaAI_Assignment.git
+cd RagaAI_Assignment
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Copy `.env.example` to `.env` and fill in your Firebase project credentials:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cp .env.example .env
+```
+
+```env
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
+
+> If Firebase is not configured, the app automatically falls back to demo mode.
+
+### Run
+
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+## Demo Login
+
+No Firebase setup needed. On the login page click **"Continue as Demo User"** or use:
+
+```
+Email:    demo@healthcare.com
+Password: demo123
+```
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── layout/        # AppLayout, Navbar, Sidebar
+│   ├── patients/      # PatientCard, PatientRow, PatientDetailDialog
+│   └── ui/            # shadcn/ui components
+├── config/            # Firebase config
+├── data/              # Mock data
+├── lib/               # Utility helpers
+├── pages/             # Dashboard, Patients, Analytics, Settings, Login
+├── services/          # Notification service
+├── store/             # Zustand stores (auth, patient, notification)
+└── types/             # TypeScript interfaces
 ```
