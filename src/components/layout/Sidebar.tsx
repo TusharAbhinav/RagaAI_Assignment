@@ -72,7 +72,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <Activity className="h-4 w-4 text-white" />
             </div>
-            <span className="text-base font-semibold tracking-tight">HealthCare</span>
+            <span className="text-base font-semibold tracking-tight">HealthHub</span>
           </div>
           <button
             className="lg:hidden text-sidebar-foreground/60 hover:text-sidebar-foreground"

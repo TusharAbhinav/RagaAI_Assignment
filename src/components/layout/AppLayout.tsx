@@ -13,7 +13,7 @@ const pageTitles: Record<string, string> = {
 export function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
-  const title = pageTitles[location.pathname] ?? "HealthCare"
+  const title = pageTitles[location.pathname] ?? "HealthHub"
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">

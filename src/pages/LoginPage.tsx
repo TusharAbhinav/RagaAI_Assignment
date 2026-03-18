@@ -115,7 +115,7 @@ export function LoginPage() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 shadow-lg">
               <Activity className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-slate-800">HealthCare</span>
+            <span className="text-2xl font-bold text-slate-800">HealthHub</span>
           </div>
         </div>
 
